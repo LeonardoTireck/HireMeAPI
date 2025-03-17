@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import 'dotenv/config';
 
 export default class Server {
   app: Application;
@@ -6,8 +7,21 @@ export default class Server {
     this.app = express();
   }
 
-  listenServer() {
-    const port = 3000;
+  public start() {
+    this.middlewares();
+    this.setupRoutes();
+    this.setupGlobalErrors();
+    this.listenServer();
+  }
+
+  private middlewares() {}
+
+  private setupRoutes() {}
+
+  private setupGlobalErrors() {}
+
+  private listenServer() {
+    const port = process.env.PORT || 3030;
     this.app.listen(port, () => {
       console.log(`Server is listening on port ${port}`);
     });

@@ -3,7 +3,7 @@ import Server from './server';
 export class JobApplication {
   run() {
     const server = new Server();
-    server.listenServer();
+    server.start();
   }
 }
 
