@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import 'dotenv/config';
+import { appRoutes } from './globals/routes/appRoutes';
 
 export default class Server {
   app: Application;
@@ -16,7 +17,9 @@ export default class Server {
 
   private middlewares() {}
 
-  private setupRoutes() {}
+  private setupRoutes() {
+    appRoutes(this.app);
+  }
 
   private setupGlobalErrors() {}
 
