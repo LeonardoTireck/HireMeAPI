@@ -1,6 +1,7 @@
-import express, { Application } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
 import { appRoutes } from './globals/routes/appRoutes';
+import { StatusCodes } from 'http-status-codes';
 
 export default class Server {
   app: Application;
@@ -23,7 +24,14 @@ export default class Server {
     appRoutes(this.app);
   }
 
-  private setupGlobalErrors() {}
+  private setupGlobalErrors() {
+    this.app.all('*', (req: Request, res: Response, next: NextFunction) => {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: `The Url ${req.originalUrl} not found with method ${req.method}`,
+      });
+      next();
+    });
+  }
 
   private listenServer() {
     const port = process.env.PORT || 3030;
