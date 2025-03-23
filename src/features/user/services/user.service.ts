@@ -1,6 +1,5 @@
 import { User } from '@prisma/client';
 import prisma from '../../../globals/prisma';
-import createUserSchema from '../schemas/createuser.schema';
 
 class UserService {
   async getAll(): Promise<User[]> {

@@ -18,14 +18,6 @@ class UserController {
   };
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
-    const { value, error } = createUserSchema.validate(req.body);
-    if (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({
-        message: 'errors',
-        error,
-      });
-      return;
-    }
     const user = await this.userService.create(req.body);
     res.status(StatusCodes.CREATED).json({
       message: 'User created',
