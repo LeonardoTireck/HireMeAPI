@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
 import { appRoutes } from './globals/routes/appRoutes';
 import { StatusCodes } from 'http-status-codes';
+import { CustomError, NotFoundException } from './globals/cores/error.core';
 
 export default class Server {
   app: Application;
@@ -26,11 +27,24 @@ export default class Server {
 
   private setupGlobalErrors() {
     this.app.all('*', (req: Request, res: Response, next: NextFunction) => {
-      res.status(StatusCodes.NOT_FOUND).json({
-        message: `The Url ${req.originalUrl} not found with method ${req.method}`,
-      });
-      next();
+      next(
+        new NotFoundException(
+          `The Url ${req.originalUrl} not found with method ${req.method}`,
+        ),
+      );
     });
+    this.app.use(
+      (error: any, req: Request, res: Response, next: NextFunction) => {
+        if (error instanceof CustomError) {
+          res.status(error.statusCode).json({
+            message: error.message,
+          });
+        }
+        res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ message: error.message });
+      },
+    );
   }
 
   private listenServer() {

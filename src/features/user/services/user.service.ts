@@ -1,8 +1,6 @@
 import { User } from '@prisma/client';
 import prisma from '../../../globals/prisma';
-import { Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { BadRequestException } from '../../../globals/cores/error.code';
+import { BadRequestException } from '../../../globals/cores/error.core';
 
 class UserService {
   async getAll(): Promise<User[]> {
@@ -10,10 +8,6 @@ class UserService {
     return users;
   }
   async create(requestBody: any): Promise<User> {
-    const checkEmail = await prisma.user.findFirst(requestBody);
-    if (checkEmail) {
-      throw new BadRequestException('Email already exists.');
-    }
     const { name, email, password, role } = requestBody;
     const user = await prisma.user.create({
       data: {
