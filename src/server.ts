@@ -39,10 +39,11 @@ export default class Server {
           res.status(error.statusCode).json({
             message: error.message,
           });
+        } else {
+          res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ message: error.message });
         }
-        res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: error.message });
       },
     );
   }
