@@ -10,10 +10,10 @@ class AuthController {
   }
 
   signUp = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await this.authService.signup(req.body);
+    const accessToken = await this.authService.signup(req.body);
     res.status(StatusCodes.CREATED).json({
       message: 'User signup successfully',
-      data: user,
+      data: accessToken,
     });
   };
 
