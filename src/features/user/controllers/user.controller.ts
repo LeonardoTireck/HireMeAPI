@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import UserService from '../services/user.service';
 import { StatusCodes } from 'http-status-codes';
-import createUserSchema from '../schemas/createuser.schema';
-import { BadRequestException } from '../../../globals/cores/error.core';
 
 class UserController {
   private userService: UserService;

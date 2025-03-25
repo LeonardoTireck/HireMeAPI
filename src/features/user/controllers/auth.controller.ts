@@ -1,14 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import AuthService from '../services/auth.service';
 
 class AuthController {
-  async signUp(req: Request, res: Response, next: NextFunction) {
-    res.status(StatusCodes.OK).json({ message: 'signup' });
+  private authService = new AuthService();
+
+  constructor(authService: AuthService) {
+    this.authService = authService;
   }
 
-  async signIn(req: Request, res: Response, next: NextFunction) {
+  signUp = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await this.authService.signup(req.body);
+    res.status(StatusCodes.CREATED).json({
+      message: 'User signup successfully',
+      data: user,
+    });
+  };
+
+  signIn = async (req: Request, res: Response, next: NextFunction) => {
     res.status(StatusCodes.OK).json({ message: 'signIn' });
-  }
+  };
 }
 
 export default AuthController;
