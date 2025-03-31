@@ -5,8 +5,7 @@ import jwt from 'jsonwebtoken';
 export function verifyUser(req: Request, res: Response, next: NextFunction) {
   //get the token from the cookie
   const accessToken = req.cookies?.accessToken;
-  if (!accessToken)
-    throw new BadRequestException('Cannot find accessToken cookie');
+  if (!accessToken) throw new BadRequestException('Please login again');
   //verify the token agains jwt
   const user = jwt.verify(accessToken, process.env.JWT_SECRET!) as UserPayload;
   req.currentUser = user;

@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import AuthService from '../services/auth.service';
 import { sendTokenToCookie } from '../../../globals/helpers/cookie.helper';
 import { BadRequestException } from '../../../globals/cores/error.core';
-import jwt from 'jsonwebtoken';
 class AuthController {
   private authService = new AuthService();
 
@@ -23,6 +22,13 @@ class AuthController {
     const accessToken = await this.authService.signIn(req.body);
     sendTokenToCookie(accessToken, res);
     res.status(StatusCodes.OK).json({ message: 'Sign In Successful' });
+  };
+
+  logOut = async (req: Request, res: Response, next: NextFunction) => {
+    res
+      .clearCookie('accessToken')
+      .status(StatusCodes.OK)
+      .json({ message: 'User logged out successfully' });
   };
 
   getCurrentUser = async (req: Request, res: Response, next: NextFunction) => {
