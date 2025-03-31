@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import AuthService from '../services/auth.service';
+import { sendTokenToCookie } from '../../../globals/helpers/cookie.helper';
 
 class AuthController {
   private authService = new AuthService();
@@ -11,17 +12,16 @@ class AuthController {
 
   signUp = async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = await this.authService.signup(req.body);
+    sendTokenToCookie(accessToken, res);
     res.status(StatusCodes.CREATED).json({
       message: 'User signup successfully',
-      data: accessToken,
     });
   };
 
   signIn = async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = await this.authService.signIn(req.body);
-    res
-      .status(StatusCodes.OK)
-      .json({ message: 'Sign In Successful', data: accessToken });
+    sendTokenToCookie(accessToken, res);
+    res.status(StatusCodes.OK).json({ message: 'Sign In Successful' });
   };
 }
 
