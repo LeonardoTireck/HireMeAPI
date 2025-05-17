@@ -1,10 +1,28 @@
 import express from 'express';
 import CandidateProfileController from '../controllers/candidate-profile.controller';
-
-const candidateProfileController = new CandidateProfileController();
+import { verifyUser } from '../../../globals/middlewares/verifyUser.middleware';
+import asyncWrapper from '../../../globals/cores/asyncwrapper.core';
+import CandidateProfileService from '../services/candidate-profile.service';
+const candidateProfileService = new CandidateProfileService();
+const candidateProfileController = new CandidateProfileController(
+  candidateProfileService,
+);
 
 const candidateProfileRoutes = express.Router();
 
-candidateProfileRoutes.get('/', candidateProfileController.getAll);
+candidateProfileRoutes.get(
+  '/',
+  asyncWrapper(candidateProfileController.getAll),
+);
+candidateProfileRoutes.get(
+  '/:id',
+  verifyUser,
+  asyncWrapper(candidateProfileController.getOne),
+);
+candidateProfileRoutes.post(
+  '/new',
+  verifyUser,
+  asyncWrapper(candidateProfileController.create),
+);
 
 export default candidateProfileRoutes;

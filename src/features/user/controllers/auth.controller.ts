@@ -4,8 +4,7 @@ import AuthService from '../services/auth.service';
 import { sendTokenToCookie } from '../../../globals/helpers/cookie.helper';
 import { BadRequestException } from '../../../globals/cores/error.core';
 class AuthController {
-  private authService = new AuthService();
-
+  private authService: AuthService;
   constructor(authService: AuthService) {
     this.authService = authService;
   }
