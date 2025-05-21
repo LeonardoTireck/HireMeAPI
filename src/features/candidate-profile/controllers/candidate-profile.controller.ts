@@ -7,7 +7,7 @@ class CandidateProfileController {
   constructor(candidateProfileService: CandidateProfileService) {
     this.candidateProfileService = candidateProfileService;
   }
-  deleteOne = async (req: Request, res: Response, next: NextFunction) => {
+  deleteOne = async (req: Request, res: Response) => {
     const deleteACandidate = await this.candidateProfileService.deleteOne(
       req,
       req.currentUser,
