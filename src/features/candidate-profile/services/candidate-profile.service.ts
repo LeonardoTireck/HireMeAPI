@@ -35,6 +35,18 @@ class CandidateProfileService {
 
     return candidateProfile;
   };
+
+  deleteOne = async (req: any, currentUser: UserPayload) => {
+    const id = req.body.userId;
+    try {
+      const deletionProccess = await prisma.candidateProfile.delete({
+        where: { id },
+      });
+      return deletionProccess;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export default CandidateProfileService;

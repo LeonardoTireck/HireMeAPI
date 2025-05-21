@@ -24,5 +24,10 @@ candidateProfileRoutes.post(
   verifyUser,
   asyncWrapper(candidateProfileController.create),
 );
+candidateProfileRoutes.post(
+  '/delete',
+  verifyUser,
+  asyncWrapper(candidateProfileController.deleteOne),
+);
 
 export default candidateProfileRoutes;

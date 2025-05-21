@@ -7,6 +7,16 @@ class CandidateProfileController {
   constructor(candidateProfileService: CandidateProfileService) {
     this.candidateProfileService = candidateProfileService;
   }
+  deleteOne = async (req: Request, res: Response, next: NextFunction) => {
+    const deleteACandidate = await this.candidateProfileService.deleteOne(
+      req,
+      req.currentUser,
+    );
+    res.status(StatusCodes.OK).json({
+      message: 'Candidate deleted',
+      data: deleteACandidate,
+    });
+  };
 
   getAll = async (req: Request, res: Response, next: NextFunction) => {
     // Logic to get all candidate profiles

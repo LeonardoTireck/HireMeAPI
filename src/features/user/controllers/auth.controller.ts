@@ -23,7 +23,7 @@ class AuthController {
     res.status(StatusCodes.OK).json({ message: 'Sign In Successful' });
   };
 
-  logOut = async (req: Request, res: Response, next: NextFunction) => {
+  logOut = async (res: Response) => {
     res
       .clearCookie('accessToken')
       .status(StatusCodes.OK)
